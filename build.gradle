@@ -4,12 +4,15 @@ buildscript {
     ext.kotlin_version = '1.1.4'
     ext.novoda_version = '0.4.0'
     repositories {
-        jcenter()
-
         maven {
-            url 'https://maven.google.com/'
-            name 'Google'
+            url 'https://maven.aliyun.com/repository/public/'
         }
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url 'https://maven.aliyun.com/repository/google/'
+        }
+        maven { url "https://www.jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
@@ -21,15 +24,15 @@ buildscript {
 }
 allprojects {
     repositories {
-        jcenter()
-        mavenCentral()
-
-//        maven{url 'https://dl.bintray.com/qianwen/maven/'}
-        maven { url "https://www.jitpack.io" }
         maven {
-            url 'https://maven.google.com/'
-            name 'Google'
+            url 'https://maven.aliyun.com/repository/public/'
         }
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url 'https://maven.aliyun.com/repository/google/'
+        }
+        maven { url "https://www.jitpack.io" }
     }
     tasks.withType(Javadoc) {
         options {
@@ -46,9 +49,4 @@ ext {
 }
 
 
-//防止上传kotlin是报错,
-tasks.getByPath(":update-app-kotlin:releaseAndroidJavadocs").enabled = false
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
 

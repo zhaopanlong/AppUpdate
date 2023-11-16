@@ -368,7 +368,12 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
      */
     private void downloadApp() {
         //使用ApplicationContext延长他的生命周期
-        DownloadService.bindService(getActivity().getApplicationContext(), conn);
+        if (mDownloadBinder!= null){
+            startDownloadApp(mDownloadBinder);
+        }else {
+            DownloadService.bindService(getActivity().getApplicationContext(), conn);
+        }
+
     }
 
     /**
@@ -418,8 +423,13 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
                 @Override
                 public void onError(String msg) {
-                    if (!UpdateDialogFragment.this.isRemoving()) {
+
+                    if (!UpdateDialogFragment.this.isRemoving() && !mUpdateApp.isConstraint()) {
                         dismissAllowingStateLoss();
+                    }
+
+                    if (mUpdateApp.isConstraint()){
+                        mDownloadBinder.stop("");
                     }
                 }
 
